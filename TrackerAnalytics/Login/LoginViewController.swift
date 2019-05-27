@@ -59,7 +59,7 @@ class LoginViewController: UIViewController {
             trackerAPIKeys.PASSWORD_KEY:password,
             trackerAPIKeys.TRENANT_ID_KEY: "1",
         ]
-        ConnectionUtils.performJsonRequestToUrl(actionURL: trackerAPIKeys.LOGIN_ACTION, parameters: parameters, httpMethod: .post, success:{(responseDictionary : NSDictionary)-> Void in
+        ConnectionUtils.performJsonRequestToUrl(actionURL: trackerAPIKeys.LOGIN_ACTION, parameters: parameters, httpMethod: .post, header: [:], success:{(responseDictionary : NSDictionary)-> Void in
             self.activityIndicatorView.hideActivityIndicatoreView()
             if let tokensData = responseDictionary[trackerAPIKeys.TOLENS_RESPONSE_KEY] as? NSDictionary {
                 let authToken = tokensData[trackerAPIKeys.AUTH_TOKEN_KEY]

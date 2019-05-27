@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 class ConnectionUtils: NSObject {
-    class func performJsonRequestToUrl(actionURL: String, parameters: Parameters, httpMethod:HTTPMethod ,success: @escaping (_ responseDictionary: NSDictionary) -> Void , failure: @escaping (_ error: NSError) -> Void )
+    class func performJsonRequestToUrl(actionURL: String, parameters: Parameters, httpMethod:HTTPMethod , header: HTTPHeaders ,success: @escaping (_ responseDictionary: NSDictionary) -> Void , failure: @escaping (_ error: NSError) -> Void )
     {
         let requestUrl = String(format: "%@%@",trackerAPIKeys.BASE_URL,actionURL)
         

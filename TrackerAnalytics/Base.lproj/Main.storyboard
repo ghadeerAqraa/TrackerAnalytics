@@ -152,6 +152,25 @@
                                 <rect key="frame" x="56" y="132" width="338" height="537.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0wC-Iz-uNd" customClass="ActivityIndicatorView" customModule="TrackerAnalytics" customModuleProvider="target">
+                                <rect key="frame" x="177" y="423" width="60" height="60"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="bFe-iE-CoE">
+                                        <rect key="frame" x="11.5" y="11.5" width="37" height="37"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.1764705882" blue="0.2901960784" alpha="0.72575984589999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="5R7-l3-IHh"/>
+                                    <constraint firstItem="bFe-iE-CoE" firstAttribute="centerY" secondItem="0wC-Iz-uNd" secondAttribute="centerY" id="UFZ-dh-Q44"/>
+                                    <constraint firstAttribute="width" constant="60" id="fm3-Se-TaR"/>
+                                    <constraint firstItem="bFe-iE-CoE" firstAttribute="centerX" secondItem="0wC-Iz-uNd" secondAttribute="centerX" id="god-W7-LET"/>
+                                </constraints>
+                                <viewLayoutGuide key="safeArea" id="Ucp-I3-hea"/>
+                                <connections>
+                                    <outlet property="activityIndicatorView" destination="bFe-iE-CoE" id="18C-zl-eGl"/>
+                                </connections>
+                            </view>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="q4I-bu-Ssi">
                                 <rect key="frame" x="20" y="64" width="374" height="29"/>
                                 <segments>
@@ -180,6 +199,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="hkJ-a8-Vx6" firstAttribute="centerY" secondItem="i7B-4U-I0L" secondAttribute="centerY" id="3fO-Zm-HeV"/>
+                            <constraint firstItem="0wC-Iz-uNd" firstAttribute="centerX" secondItem="5xe-k5-TQ1" secondAttribute="centerX" id="9Sq-0r-HnJ"/>
                             <constraint firstItem="5xe-k5-TQ1" firstAttribute="trailing" secondItem="q4I-bu-Ssi" secondAttribute="trailing" constant="20" id="GkX-y4-bHT"/>
                             <constraint firstItem="hkJ-a8-Vx6" firstAttribute="leading" secondItem="2n9-tk-9d9" secondAttribute="leading" constant="10" id="HJn-SQ-hJJ"/>
                             <constraint firstItem="i7B-4U-I0L" firstAttribute="height" secondItem="2n9-tk-9d9" secondAttribute="height" multiplier="0.6" id="JwK-0j-TjG"/>
@@ -187,6 +207,7 @@
                             <constraint firstItem="i7B-4U-I0L" firstAttribute="leading" secondItem="hkJ-a8-Vx6" secondAttribute="trailing" constant="2" id="O6a-OO-W1d"/>
                             <constraint firstItem="q4I-bu-Ssi" firstAttribute="leading" secondItem="5xe-k5-TQ1" secondAttribute="leading" constant="20" id="OKJ-3q-CEr"/>
                             <constraint firstItem="5xe-k5-TQ1" firstAttribute="trailing" secondItem="i7B-4U-I0L" secondAttribute="trailing" constant="20" id="RT7-OB-4Lu"/>
+                            <constraint firstItem="0wC-Iz-uNd" firstAttribute="centerY" secondItem="5xe-k5-TQ1" secondAttribute="centerY" id="SD5-JY-ORA"/>
                             <constraint firstItem="2Bf-hO-j03" firstAttribute="top" secondItem="i7B-4U-I0L" secondAttribute="bottom" constant="20" id="ZAG-Fd-Ihd"/>
                             <constraint firstItem="i7B-4U-I0L" firstAttribute="top" secondItem="q4I-bu-Ssi" secondAttribute="bottom" constant="40" id="Zja-So-xk3"/>
                             <constraint firstItem="q4I-bu-Ssi" firstAttribute="top" secondItem="5xe-k5-TQ1" secondAttribute="top" constant="20" id="agj-iB-G5j"/>
@@ -198,6 +219,7 @@
                         <viewLayoutGuide key="safeArea" id="5xe-k5-TQ1"/>
                     </view>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="0wC-Iz-uNd" id="gKL-oI-Tdf"/>
                         <outlet property="chartView" destination="i7B-4U-I0L" id="KJ7-n0-wYB"/>
                         <outlet property="stepsLabel" destination="hkJ-a8-Vx6" id="K7A-AG-7r3"/>
                     </connections>

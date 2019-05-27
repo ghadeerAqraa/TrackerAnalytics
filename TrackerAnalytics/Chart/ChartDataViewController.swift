@@ -12,11 +12,13 @@ import Charts
 class ChartDataViewController: UIViewController {
     @IBOutlet var chartView: LineChartView!
     @IBOutlet var stepsLabel: UILabel!
+    @IBOutlet weak var activityIndicatorView: ActivityIndicatorView!
 
     var stepsChartData: StepsChartData = StepsChartData.init(graphData: [], goal: 0.0)
     override func viewDidLoad() {
         super.viewDidLoad()
-        stepsChartData = StepsChartData.getDummyStepsChartData(range: Range.Week)
+        activityIndicatorView.initializeActivityIndicatoreView()
+        getStepsChartDataFromTheServer(range: RangeValues.Week)
         initializeChartView()
         initializStepTitleLabel()
         // Do any additional setup after loading the view.
@@ -34,7 +36,35 @@ class ChartDataViewController: UIViewController {
         chartView.rightAxis.enabled = false//Disable Right Axus
         
         chartView.noDataText = "No data available"
-        initilizeLineChartData()
+       
+        
+    }
+    
+    func getStepsChartDataFromTheServer(range: String){
+        activityIndicatorView.showActivityIndicatorView()
+        let userDefaults = UserDefaults.standard
+        let authToken = userDefaults.value(forKey: trackerAPIKeys.AUTH_TOKEN_KEY) as! String
+        let sessionToken = userDefaults.value(forKey: trackerAPIKeys.SESSION_TOKEN_KEY)as! String
+
+        let headers: HTTPHeaders = [
+            trackerAPIKeys.AUTH_TOKEN_KEY:authToken,
+            trackerAPIKeys.SESSION_TOKEN_KEY:sessionToken
+            
+        ]
+        let actionURL = trackerAPIKeys.TRACKERS_STEPS_ACTION + range
+        ConnectionUtils.performJsonRequestToUrl(actionURL: actionURL, parameters: [:], httpMethod: .get, header: headers, success:{(responseDictionary : NSDictionary)-> Void in
+            self.activityIndicatorView.hideActivityIndicatoreView()
+            self.stepsChartData = StepsChartData.createStepsChartDataFromJson(jsonItem: responseDictionary)!
+            self.initilizeLineChartData()
+     
+        },
+                                                failure:{(error : NSError) -> Void in
+                                                    self.activityIndicatorView.hideActivityIndicatoreView()
+                                                    self.showAlertView(error: error.localizedDescription)
+                                                    
+                                                    
+        }
+        )
         
     }
     
@@ -64,11 +94,7 @@ class ChartDataViewController: UIViewController {
             dataEntries.append(dataEntry)
             
         }
-        
-        let firstDate = DateUtils.dateFromString(stringDate: stepsChartData.graphData[0].startDateStr!)
-        let nextDate = Calendar.current.date(byAdding: .day, value: -1, to: firstDate)
-        self.chartView.xAxis.axisMinimum = nextDate!.timeIntervalSince1970
-        
+   
          let lineChartDataSet = initializeLineChartDataSet(dataEntries: dataEntries)
         let lineChartData = LineChartData(dataSet: lineChartDataSet)
         
@@ -96,8 +122,20 @@ class ChartDataViewController: UIViewController {
     
     @IBAction func segmentedIndexChanged(_ sender: Any) {
         let segmentedControl = sender as! UISegmentedControl
-        stepsChartData = StepsChartData.getDummyStepsChartData(range: segmentedControl.selectedSegmentIndex)
-        initilizeLineChartData()
+        var range = ""
+        switch segmentedControl.selectedSegmentIndex {
+        case Range.Week:
+            range = RangeValues.Week
+            break
+        case Range.Month:
+            range = RangeValues.Month
+        case Range.Quarter:
+            range = RangeValues.Quarter
+        default:
+            range = RangeValues.Week
+        }
+        getStepsChartDataFromTheServer(range: range)
+        
     }
     
 

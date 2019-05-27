@@ -7,37 +7,37 @@
 //
 
 import UIKit
+let GOAL_RESPONSE_KEY = "Goal"
+let Graph_DATA_KEY = "GraphData"
+
 
 class StepsChartData: NSObject {
     var graphData: [GraphData]
     var goal: Double?
     
+    class func createStepsChartDataFromJson(jsonItem: NSDictionary) -> StepsChartData?{
+        var stepsChartData:StepsChartData?
+        
+        var graphData:[GraphData] = []
+        var goal = ""
+        if let goalStr = jsonItem[GOAL_RESPONSE_KEY] {
+            goal = StringUtils.getStringFromObject(obj: goalStr as AnyObject)
+        }
+        if let graphDataJSON = jsonItem[Graph_DATA_KEY] as? NSArray {
+            for graphDataObj in graphDataJSON {
+                graphData.append(GraphData.createGraphDataFromJson(jsonItem: graphDataObj as! NSDictionary)!)
+            }
+            
+        }
+        stepsChartData = StepsChartData.init(graphData: graphData, goal: NSString(string: goal).doubleValue)
+    
+        return stepsChartData
+    }
+    
     init(graphData: [GraphData] , goal: Double ){
         self.graphData = graphData
         self.goal = goal
     }
-    
-    class func getDummyStepsChartData(range: Int)-> StepsChartData{
-        var stepsChartData : StepsChartData!
-        var goal: Double = 0
-        switch range
-        {
-        case Range.Week://week
-            goal = 10000
-            break
-        case Range.Month://month
-             goal = 100000
-            break
-        case Range.Quarter://quarter
-             goal = 1000000
-            break
-        default:
-            break
-        }
-        stepsChartData = StepsChartData.init(graphData: GraphData.getGraphData(range: range), goal: goal)
-        
-        return stepsChartData
 
-    }
 
 }
